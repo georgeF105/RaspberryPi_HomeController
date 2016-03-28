@@ -123,3 +123,25 @@ function setTime(id)
 	});
 	
 }
+
+function fetchAlarmData(){
+	$.ajax({
+		url: "http://192.168.178.31/Scripts/AlarmFunctions.php?function-name=getAlarms",
+		success: function (result) {
+			console.log("Get All Alarm Data success!");
+			console.log(result);
+			var arr = JSON.parse(result);
+			console.log(arr);
+			//var arr = 
+			//createSwitches(arr);
+			//$('#S1_descption').text(result);
+			drawAlarms(arr);
+		},
+		error:function(result){
+		console.log("Get All Alarm Data error: ");
+		console.log(result);
+		}
+		//async: false
+
+	});
+}

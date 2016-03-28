@@ -21,7 +21,7 @@
                         <ul class="nav masthead-nav">
                             <li onclick="home()" class="active">Home</li>
                             <li onclick="settingsAlarms()" class="active">Alarms</li>
-                            <li onclick="settings()" > Settings</li>
+                            <!-- <li onclick="settings()" > Settings</li> -->
                         </ul>
 						<ul id="second-settings" class="nav masthead-nav">
 							<li onclick="settingsPlugs()" class="active">Plugs</li>
@@ -67,6 +67,7 @@
 
 <script src="content/jquery-1.11.3.min.js"></script>
 <script src="alarmFunctions.js"></script>
+<script src="plugFunctions.js"></script>
 <script src="content/jquery.timePicker.js"></script>
 <script>
 	//<?php include '/Scrips/SwitchPlug.php'; ?>
@@ -85,8 +86,8 @@
 		//fetchHomeData();
 		//$("#switch-wrapper").html(createSwitches());
 		fetchAllData(drawHome);
-		fetchTHData(drawTH);
-		$('#tempHumd-wrapper').show();
+		//fetchTHData(drawTH);
+		$('#tempHumd-wrapper').hide();
 		$('#switch-wrapper').show();
 		$('#settings-wrapper').hide();
 		$('#second-settings').hide();
@@ -117,178 +118,8 @@
 		$('#alarms-wrapper').show();
 		//$(".timeInput").timePicker();
 	}
-	
-	function togglePlug(plugId,id) {
-	console.log("ID: ");
-	console.log(id);
-	var checked = $('#switch-'+plugId).is(':checked');
-	console.log("plug id : "+plugId);
-	console.log(checked);
-        if (!checked) {
-		console.log('switch is on - truning it off')
-            switch_plug(plugId,false);
-        } else {
-		console.log('switch is off - truning it on')
-            switch_plug(plugId,true);
-        }
-    }
-	
-	function togglePlugDisplay(plugId,id) {
-	console.log("ID: ");
-	console.log(id);
-	var checked = $('#switch-'+plugId).is(':checked');
-	console.log("plug id : "+plugId);
-	console.log(checked);
-        if (checked) {
-		console.log('switch is on - truning it off')
-            changeDisplay(plugId,false);
-        } else {
-		console.log('switch is off - truning it on')
-            changeDisplay(plugId,true);
-        }
-    }
-	
-	function drawHome(arr)
-	{
-		console.log("here 1");
-		//var arr = fetchAllData();
-		//console.log("here 2");
-		console.log(arr);
-		console.log("Length: ");
-		console.log(arr.length);
-		var html = '';
-		for(var i = 0; i < arr.length; i++)
-		{
-			var p = arr[i];
-			console.log("here 3, Plug: "+i+"display"+p.display);
-			
-			if(p.display == "1")
-			{
-				console.log("here 4");
-				html += createSwitch(p.description, p.plug, p.state);
-			}
-			
-		}
-		$("#switch-wrapper").html(html);
-		//return html;
-		//$("#switch-wrapper").html(html);
-	}
-	
-	function createSwitch(description, plugId, state){
-	var checked = '';
-	if(state == 1){
-		checked = 'checked';
-	}
-	var id = 'switch-' + plugId;
-	return ' <div class="switch-row">'+
-                    '<span class="label"> ' + description +' </span>'+
-                    '<div class="onoffswitch">'+
-                        '<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" onclick="togglePlug('+plugId+',&quot;'+id+'&quot;);"'+
-                               'id="' + id +'"'+ checked +'/>'+
-                        '<label class="onoffswitch-label" for="'+ id +'">'+
-                            '<span class="onoffswitch-inner"></span>'+
-                            '<span class="onoffswitch-switch"></span>'+
-                        '</label>'+
-                    '</div>'+
-                '</div>';
-				
-	}
-/*
-	function drawAlarms(arr)
-	{
-		console.log("here 1");
-		//var arr = fetchAllData();
-		//console.log("here 2");
-		console.log(arr);
-		console.log("Length: ");
-		console.log(arr.length);
-		var html = '';
-		for(var i = 0; i < arr.length; i++)
-		{
-			var p = arr[i];
-			
-			console.log("here 4");
-			html += createAlarm(p);
-			
-		}
-		$("#alarms-wrapper").html(html);
-		//return html;
-		//$("#switch-wrapper").html(html);
-	}
-	
-	function createAlarm(p)
-	{
-		var id = 'alarm-' + p.id;
-		if(p.monday == 1){var cMon = 'btn-success';}else{var cMon = 'btn-default';}
-		if(p.tuesday == 1){var cTue = 'btn-success';}else{var cTue = 'btn-default';}
-		if(p.wednesday == 1){var cWen = 'btn-success';}else{var cWen = 'btn-default';}
-		if(p.thursday == 1){var cThr = 'btn-success';}else{var cThr = 'btn-default';}
-		if(p.friday == 1){var cFri = 'btn-success';}else{var cFri = 'btn-default';}
-		if(p.saturday == 1){var cSat = 'btn-success';}else{var cSat = 'btn-default';}
-		if(p.sunday == 1){var cSun = 'btn-success';}else{var cSun = 'btn-default';}
-		
-		var cAct = 'btn-default';
-		var fAct = p.id+',&quot;active&quot;,'+p.active;
-		if(p.active == 1)
-		{
-			cAct = 'btn-success';
-			if(p.running == 1)
-			{
-				cAct = 'btn-danger';
-				fAct = p.id+',&quot;running&quot;,2';
-			}
-		}
-		
-		
-		//if(p.running == 1){var cRun = 'btn-danger';}else{var cRun = 'btn-default';}
-		
-		
-		return '<div class="alarm-row">'+
-					'<span class="label" aria-label="Alarm' + p.id + '">' + p.time + ' </span>'+
-					'<div class="dayselect">'+
-						'<div class="btn-group" role="group" aria-label="...">'+
-							'<button type="button" class="btn btn-sm '+cMon+'" aria-label="monday" onclick="toggleAlarmDay('+p.id+',&quot;monday&quot;,'+p.monday+');"> M </button>'+
-							'<button type="button" class="btn btn-sm '+cTue+'" aria-label="tuesday"onclick="toggleAlarmDay('+p.id+',&quot;tuesday&quot;,'+p.tuesday+');"> T </button>'+
-							'<button type="button" class="btn btn-sm '+cWen+'" aria-label="wednesday" onclick="toggleAlarmDay('+p.id+',&quot;wednesday&quot;,'+p.wednesday+');"> W </button>'+
-							'<button type="button" class="btn btn-sm '+cThr+'" aria-label="thursday" onclick="toggleAlarmDay('+p.id+',&quot;thursday&quot;,'+p.thursday+');"> T </button>'+
-							'<button type="button" class="btn btn-sm '+cFri+'" aria-label="friday" onclick="toggleAlarmDay('+p.id+',&quot;friday&quot;,'+p.friday+');"> F </button>'+
-							'<button type="button" class="btn btn-sm '+cSat+'" aria-label="saturday" onclick="toggleAlarmDay('+p.id+',&quot;saturday&quot;,'+p.saturday+');"> S </button>'+
-							'<button type="button" class="btn btn-sm '+cSun+'" aria-label="sunday" onclick="toggleAlarmDay('+p.id+',&quot;sunday&quot;,'+p.sunday+');"> S </button>'+
-						'</div>'+
-						'<button type="button" class="btn btn-lg '+cAct+'" aria-label="ON/OFF" onclick="toggleAlarmDay('+fAct+');" > <span class="glyphicon glyphicon-off" aria-hidden="true"></span> </button>'+
-						//'<button type="button" class="btn '+cRun+'" aria-label="ON/OFF" onclick="toggleAlarmDay('+fAct+');" > <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> </button>'+
-					'</div>'+
-						
-				'</div>';	
-	}
-	
-	function toggleAlarmDay(id,day,state)
-	{
-		
-		if(state == 1){
-			state = 0;
-		}
-		else if(state == 0)
-		{
-			state = 1;
-		}
-		console.log("Toggle "+day+" On Alarm id: "+id+" To State: "+state)
-		
-		$.ajax({
-            url: "http://192.168.178.31/Scripts/AlarmFunctions.php?function-name=toggleAlarmDay&ID="+id+"&day="+day+"&state="+state,
-            success: function (result) {
-				console.log("Toggle Day success!");
-				fetchAlarmData();
-            },
-			error:function(result){
-			console.log("Toggle Day error: ");
-			}
-			//async: false
 
-        });
-		
-	}
-*/
+	
 	function drawTH(arr){
 	console.log("drawTH");
 	//var id = 'switch-' + plugId;
@@ -413,132 +244,9 @@
 		});*/
     }
 	
-	function fetchAlarmData(){
-		$.ajax({
-            url: "http://192.168.178.31/Scripts/AlarmFunctions.php?function-name=getAlarms",
-            success: function (result) {
-				console.log("Get All Alarm Data success!");
-				console.log(result);
-				var arr = JSON.parse(result);
-				console.log(arr);
-				//var arr = 
-				//createSwitches(arr);
-				//$('#S1_descption').text(result);
-				drawAlarms(arr);
-            },
-			error:function(result){
-			console.log("Get All Alarm Data error: ");
-			console.log(result);
-			}
-			//async: false
 
-        });
-	}
-	
-	/*
-    function fetchHomeData() {
-        $.ajax({
-            url: "/Scripts/SwitchPlug.php?function-name=GetAll",
-            success: function (result) {
-				console.log("success!");
-				console.log(result);
-				var arr = JSON.parse(result);
-				console.log(arr);
-				//var arr = 
-				createSwitches(arr);
-				
-				$('#S1_descption').text(result);
-            },
-			error:function(result){
-			console.log("error: ");
-			console.log(result);
-			}
 
-        });
-    }
-	
-	function fetchSettingsData() {
-        $.ajax({
-            url: "/Scripts/SwitchPlug.php?function-name=GetAll",
-            success: function (result) {
-				console.log("success!");
-				console.log(result);
-				var arr = JSON.parse(result);
-				console.log(arr);
-				//var arr = 
-				createSettings(arr);
-				
-				$('#S1_descption').text(result);
-            },
-			error:function(result){
-			console.log("error: ");
-			console.log(result);
-			}
-
-        });
-    }
-	*/
-	function switch_plug(plugId, state) { //TODO
-	console.log("switching plug:  plugid = "+plugId +", state = " +state);
-        $.ajax({
-            url: "/Scripts/SwitchPlug.php?function-name=switchPlug&plug="+plugId+"&state="+state,
-            success: function (result) {
-				console.log("success!");
-				console.log(result);
-				
-            },
-			error:function(result){
-			console.log("error: ");
-			console.log(result);
-			}
-
-        });
-    }
-	
-	function changeDisplay(plugId, state)
-	{
-		console.log("Changeing plug display plug:  plugid = "+plugId +", state = " +state);
-		
-		
-	}
-	
-	function addPlug(plugId, description, oncode, offcode) {
-        $.ajax({
-            url: "/Scripts/SwitchPlug.php?function-name=addPlug&plug="+plugId+"&description="+description+"&oncode="+oncode+"&offcode="+offcode,
-            success: function (result) {
-				console.log("success!");
-				console.log(result);
-				
-            },
-			error:function(result){
-			console.log("error: ");
-			console.log(result);
-			}
-
-        });
-    }
-	
-	function ChangePlugDescription(plugId, description) {
-        $.ajax({
-            url: "/Scripts/SwitchPlug.php?function-name=changeDescription&plug="+plugId+"&description="+description,
-            success: function (result) {
-				console.log("success!");
-				console.log(result);
-				
-            },
-			error:function(result){
-			console.log("error: ");
-			console.log(result);
-			}
-
-        });
-    }
-	
-
-	//fetchHomeData();
 	home();
-	//$('#switch-wrapper').show();
-	//$('#settings-wrapper').hide();
 </script>
 
 </body>
