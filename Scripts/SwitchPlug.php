@@ -72,8 +72,8 @@ function Switch_Plug($plug, $State)
 		$result = mysqli_fetch_assoc(mysqli_query($conn, $sqlGet));
 		$code = $result['oncode'];
 		$result = mysqli_fetch_assoc(mysqli_query($conn, $sqlSet));
-		exec("sudo /var/www/Scripts/SendPlugCode '$code'");
-		echo "Plug: '$plug' On";
+		exec("sudo /var/www/html/Scripts/SendPlugCode '$code'", $eOutput, $eResult);
+		echo "Plug: '$plug' On - Code: '$code' - Return: '$eResult' - eOutput: '$eOutput'";
 	}
 	else
 	{
@@ -82,8 +82,8 @@ function Switch_Plug($plug, $State)
 		$sqlSet = "update Plugs set state = 0 Where plug = '$plug' " ;
 		$code = $result['offcode'];
 		$result = mysqli_fetch_assoc(mysqli_query($conn, $sqlSet));
-		exec("sudo /var/www/Scripts/SendPlugCode '$code'");
-		echo "Plug: '$plug' Off";
+		exec("sudo /var/www/html/Scripts/SendPlugCode '$code'", $eOutput, $eResult);
+		echo "Plug: '$plug' Off - Code: '$code' - Return: '$eResult' - eOutput: '$eOutput'";
 	}
 	//echo $code;
 	mysql_close($conn);
