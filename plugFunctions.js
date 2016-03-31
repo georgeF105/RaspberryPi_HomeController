@@ -62,10 +62,22 @@ function createSwitch(description, plugId, state){
 	var checked = '';
 	if(state == 1){
 		checked = 'checked';
+		bnState = 'btn-default';
+	}
+	else{
+		bnState = 'btn-success';
 	}
 	var id = 'switch-' + plugId;
 	return ' <div class="switch-row">'+
-					'<span class="label"> ' + description +' </span>'+
+					'<div class="btn-group switch-btn-group" role="group" aria-label="...">'+
+						
+						'<button type="button" class="btn btn-default btn-lg" aria-label="description" onclick=""> <span class="glyphicon"></span>'+ description +' </button>'+
+						'<button type="button" class="btn btn-default btn-lg" aria-label="switchOn" onclick="switch_plug('+plugId+',true);"> <span class="glyphicon glyphicon-off" aria-hidden="true"></span> ON</button>'+
+						'<button type="button" class="btn btn-success btn-lg" aria-label="switchOff" onclick="switch_plug('+plugId+',false);"> <span class="glyphicon glyphicon-off" aria-hidden="true"></span> OFF</button>'+
+						
+					'</div>'+
+					
+					/*'<span class="label"> ' + description +' </span>'+
 					'<div class="onoffswitch">'+
 						'<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" onclick="togglePlug('+plugId+',&quot;'+id+'&quot;);"'+
 							   'id="' + id +'"'+ checked +'/>'+
@@ -73,7 +85,7 @@ function createSwitch(description, plugId, state){
 							'<span class="onoffswitch-inner"></span>'+
 							'<span class="onoffswitch-switch"></span>'+
 						'</label>'+
-					'</div>'+
+					'</div>'+*/
 				'</div>';
 			
 }

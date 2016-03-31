@@ -51,24 +51,25 @@ body {
 .cover-container {
     margin-right: auto;
     margin-left: auto;
+	margin-bottom: 20px;
 }
 
 /* Padding for spacing */
 .inner {
     padding: 20px;
 	padding-bottom: 5px;
-
+	
 }
 
 /* Switches */
 
 .switches {
 	padding: 0 20px;
-	border: 2px solid #5a5c5f;
-	border-radius: 10px;
-	width: 50%;
-	margin-left: auto;
-	margin-right: auto;
+	/*border: 2px solid #5a5c5f;
+	border-radius: 10px;*/
+	/*width: 50%;*/
+	/*margin-left: auto;
+	margin-right: auto;*/
 }
 
 /* Temp / Humid */
@@ -138,7 +139,7 @@ body {
  */
 
 .cover {
-    padding: 0 20px;
+    /*padding: 0 20px;*/
 	padding-top: 50px;
 }
 .cover .btn-lg {
