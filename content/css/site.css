@@ -15,6 +15,24 @@
 	border: 3px solid #555;
 	border-radius: 10px;
 	box-shadow: 3px 3px 1px #555;
+	min-width: 324px
+}
+
+.switch-settings-btn-group{
+	border: 3px solid #555;
+	border-radius: 10px;
+	box-shadow: 3px 3px 1px #555;
+	min-width: 424px
+}
+
+.btn-switch{
+		width: 100px;
+		
+}
+
+.btn-title{
+		width: 120px;
+		
 }
 
 .alarm-row{

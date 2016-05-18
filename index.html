@@ -23,12 +23,12 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" >Home Controller</a>
+						<a onclick="home()" class="navbar-brand" >Home Controller</a>
 					</div>
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li onclick="home()" class="active"><a>Home</a></li>
-                            <li onclick="settingsAlarms()" class="active"><a>Alarms</a></li>
+                            <li onclick="plugs()" class="active"><a href='#home'>Plugs</a></li>
+                            <li onclick="settingsAlarms()" class="active"><a href='#active'>Alarms</a></li>
                             <!-- <li onclick="settings()" > Settings</li> -->
                         </ul>
                     </div>
@@ -40,6 +40,7 @@
 		<div class="container cover">
 			
 			<div id="tempHumd-wrapper" class="inner sensors"> </div>
+			<div id="home-wrapper" class="inner switches"> </div>
 			<div id="switch-wrapper" class="inner switches"> </div>
 			<div id="settings-wrapper" class="inner cover"> </div>
 			<div id="alarms-wrapper" class="inner cover"> </div>
@@ -53,16 +54,6 @@
 
 <?php
 	include '/Scrips/SwitchPlug.php';
-	/*
-	function Get_Description($plug)
-	{
-		return Get_Plug_Description($plug);
-	}
-	function Get_State($plug)
-	{
-		return Get_Plug_State($plug);
-	}
-	*/
 	echo Get_Plug_Description(2);
 	/*
 	function Switch_Plug($plug, $State)
@@ -75,6 +66,8 @@
 <script src="alarmFunctions.js"></script>
 <script src="plugFunctions.js"></script>
 <script src="content/jquery.timePicker.js"></script>
+<script src="content/js/bootstrap.min.js"></script>
+
 <script>
 	//<?php include '/Scrips/SwitchPlug.php'; ?>
 	//var S1_descption = <?php echo Get_Plug_Description(2); ?>
@@ -91,7 +84,20 @@
 	{
 		//fetchHomeData();
 		//$("#switch-wrapper").html(createSwitches());
-		fetchAllData(drawHome);
+		fetchPlugData(false);
+		//fetchTHData(drawTH);
+		$('#tempHumd-wrapper').hide();
+		$('#switch-wrapper').show();
+		$('#settings-wrapper').hide();
+		$('#second-settings').hide();
+		$('#alarms-wrapper').hide();
+	}
+	
+	function plugs()
+	{
+		//fetchHomeData();
+		//$("#switch-wrapper").html(createSwitches());
+		fetchPlugData(true);
 		//fetchTHData(drawTH);
 		$('#tempHumd-wrapper').hide();
 		$('#switch-wrapper').show();
